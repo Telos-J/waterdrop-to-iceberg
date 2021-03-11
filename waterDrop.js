@@ -9,28 +9,43 @@ const waterdrops = [];
 class Waterdrop {
     constructor() {
         this.dropped = false;
+        this.timeline = gsap.timeline();
     }
     
     create() {
         this.DOM = waterdropBase.cloneNode(true);
         document.body.insertBefore(this.DOM, waterdropBase);
     }
-    
-    fall() {
-        const waterdropTimeline = gsap.timeline();
+
+    grow() {
         const self = this;
-        waterdropTimeline
+        this.timeline.clear();
+        this.timeline
             .to(this.DOM.querySelector('path'), {
                 duration: 1,
                 ease: 'none',
                 morphSVG: waterdropFall.querySelector('path'),
+            })
+
+        this.DOM.style.display = 'block';
+    }
+    
+    fall() {
+        const self = this
+        this.dropped = true
+        this.timeline.clear()
+        this.timeline
+            .to(this.DOM, {
+                y: 480,
                 onComplete: function() {
-                    self.dropped = true;
+                    self.morph();
                 }
             })
-            .to(this.DOM, {
-                y: 460,
-            })
+    }
+
+    morph() {
+        this.timeline.clear()
+        this.timeline
             .to(this.DOM.querySelector('path'), {
                 morphSVG: iceberg.querySelector('path'),
             })
@@ -39,9 +54,16 @@ class Waterdrop {
                 repeat: -1,
                 yoyo: true,
                 ease: "sine.inOut",
-                y: 465,
+                y: 485,
             })
+    }
 
-        this.DOM.style.display = 'block';
+    sink() {
+        this.timeline.clear()
+        this.timeline
+            .to(this.DOM, {
+                duration: 5,
+                y:1000
+            })
     }
 }
