@@ -11,7 +11,7 @@ class Waterdrop {
         this.dropped = false;
         this.timeline = gsap.timeline();
     }
-    
+
     create() {
         this.DOM = waterdropBase.cloneNode(true);
         document.body.insertBefore(this.DOM, waterdropBase);
@@ -29,11 +29,12 @@ class Waterdrop {
 
         this.DOM.style.display = 'block';
     }
-    
+
     fall() {
         const self = this
         this.dropped = true
         this.timeline.clear()
+        if (this.DOM.getBoundingClientRect().top > 480) this.morph();
         this.timeline
             .to(this.DOM, {
                 y: 480,
@@ -44,6 +45,7 @@ class Waterdrop {
     }
 
     morph() {
+        const self = this;
         this.timeline.clear()
         this.timeline
             .to(this.DOM.querySelector('path'), {
@@ -56,6 +58,9 @@ class Waterdrop {
                 ease: "sine.inOut",
                 y: 485,
             })
+        window.setTimeout((e) => {
+            self.sink()
+        }, 4000)
     }
 
     sink() {
@@ -63,7 +68,7 @@ class Waterdrop {
         this.timeline
             .to(this.DOM, {
                 duration: 5,
-                y:1000
+                y: 1000
             })
     }
 }

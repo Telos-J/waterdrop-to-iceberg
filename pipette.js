@@ -1,23 +1,35 @@
-const pipetteBase = document.querySelector('.pipette')
-const pipetteFull = document.querySelector('.pipette-full')
-const pipetteEmpty = document.querySelector('.pipette-empty')
+const pipetteDOM = document.querySelector('.pipette')
+const pipetteIdle = document.querySelector('#pipette-idle')
+const pipetteSqueeze = document.querySelector('#pipette-squeeze')
 
 class Pipette {
     constructor(DOM) {
         this.DOM = DOM;
+        this.DOMOutline = DOM.querySelector('#pipette-outline');
+        this.DOMFill = DOM.querySelector('#pipette-fill');
         this.squeezable = true;
+        this.timeline = gsap.timeline();
     }
 
     squeeze() {
+        const self = this;
         this.squeezable = false;
-        Array.from(this.DOM.children).forEach((path, idx) => {
-            gsap.to(path, {
+        this.timeline.clear();
+        this.timeline
+            .to(this.DOMOutline, {
                 duration: 1,
                 ease: 'none',
-                morphSVG: pipetteEmpty.children[idx],
-            });
-        }); 
-        
+                morphSVG: pipetteSqueeze,
+            }, 0)
+            .to(this.DOMFill, {
+                duration: (945 - this.DOMFill.getAttribute("y")) / 664,
+                ease: 'none',
+                attr: { y: 945 },
+                onComplete() {
+                    self.drop();
+                }
+            }, 0);
+
         this.waterdrop = new Waterdrop();
         waterdrops.push(this.waterdrop);
         this.waterdrop.create();
@@ -25,25 +37,29 @@ class Pipette {
     }
 
     drop() {
+        if (this.DOMFill.getAttribute("y") < 945) this.squeezable = true;
         this.waterdrop.fall();
-        window.setTimeout((e) => {
-            this.waterdrop.sink()
-        }, 4000)
+        this.timeline.clear();
+        this.timeline
+            .to(this.DOMOutline, {
+                duration: 0.5,
+                morphSVG: pipetteIdle,
+            })
     }
 
     refill() {
         const self = this;
-        Array.from(this.DOM.children).forEach((path, idx) => {
-            gsap.to(path, {
-                duration: 1,
-                ease: 'none',
-                morphSVG: pipetteFull.children[idx],
-                onComplete() {
-                    self.squeezable = true;
-                }
-            });
-        }); 
+        const properties = {
+            duration: 1,
+            ease: 'none',
+            attr: { y: 281 },
+            onComplete() {
+                self.squeezable = true;
+            }
+        }
+        this.timeline.clear();
+        this.timeline.to(this.DOMFill, properties, 0);
     }
 }
 
-const pipette = new Pipette(pipetteBase)
+const pipette = new Pipette(pipetteDOM)
