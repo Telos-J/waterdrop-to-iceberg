@@ -20,3 +20,7 @@ window.addEventListener('mouseup', (e) => {
 window.addEventListener('keydown', (e) => {
     if (e.code === 'Space') pipette.refill()
 })
+
+window.setInterval(() => {
+    console.log("Polution: ", (1 - water.colorTimeline.progress()) * 100)
+}, 100)
