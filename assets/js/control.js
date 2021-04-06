@@ -10,11 +10,11 @@ window.addEventListener('mousemove', (e) => {
 })
 
 window.addEventListener('mousedown', (e) => {
-    if (pipette.squeezable) pipette.squeeze()
+    pipette.squeeze();
 })
 
 window.addEventListener('mouseup', (e) => {
-    if (!pipette.waterdrop.dropped) pipette.drop()
+    pipette.release();
 })
 
 window.addEventListener('keydown', (e) => {

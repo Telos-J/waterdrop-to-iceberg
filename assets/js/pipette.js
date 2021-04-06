@@ -7,13 +7,14 @@ class Pipette {
         this.DOM = DOM;
         this.DOMOutline = DOM.querySelector('#pipette-outline');
         this.DOMFill = DOM.querySelector('#pipette-fill');
-        this.squeezable = true;
         this.timeline = gsap.timeline();
     }
 
+    hasWater() {
+        return this.DOMFill.getAttribute("y") < 945;
+    }
+
     squeeze() {
-        const self = this;
-        this.squeezable = false;
         this.timeline.clear();
         this.timeline
             .to(this.DOMOutline, {
@@ -21,6 +22,22 @@ class Pipette {
                 ease: 'none',
                 morphSVG: pipetteSqueeze,
             }, 0)
+        if (this.hasWater()) this.drip()
+    }
+
+    release() {
+        this.timeline.clear();
+        this.timeline
+            .to(this.DOMOutline, {
+                duration: 0.5,
+                morphSVG: pipetteIdle,
+            })
+        if (!this.waterdrop.dropped) this.drop()
+    }
+
+    drip() {
+        const self = this;
+        this.timeline
             .to(this.DOMFill, {
                 duration: (945 - this.DOMFill.getAttribute("y")) / 664,
                 ease: 'none',
@@ -36,25 +53,14 @@ class Pipette {
     }
 
     drop() {
-        if (this.DOMFill.getAttribute("y") < 945) this.squeezable = true;
         this.waterdrop.fall();
-        this.timeline.clear();
-        this.timeline
-            .to(this.DOMOutline, {
-                duration: 0.5,
-                morphSVG: pipetteIdle,
-            })
     }
 
     refill() {
-        const self = this;
         const properties = {
             duration: 1,
             ease: 'none',
             attr: { y: 281 },
-            onComplete() {
-                self.squeezable = true;
-            }
         }
         this.timeline.clear();
         this.timeline.to(this.DOMFill, properties, 0);
