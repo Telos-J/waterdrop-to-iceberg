@@ -29,12 +29,37 @@ class WaterRipple {
     }
 }
 
+class Wave {
+    constructor() {
+        this.DOM = document.querySelector('.wave');
+    }
+
+    animate() {
+        const self = this;
+        const path = Array.from(this.DOM.querySelectorAll('path'));
+        gsap.to(path, {
+            x: '-=2060',
+            duration: 2,
+            ease: Linear.easeNone,
+            repeat: -1
+        })
+
+        water.colorTimeline.to(self.DOM.querySelector('#wave-fill'), {
+            duration: 10,
+            ease: 'none',
+            fill: '#1464AE'
+        }, 0);
+    }
+}
+
 class Water {
     constructor(numRipples) {
         this.numRipples = numRipples;
         this.ripples = [];
+        this.wave = new Wave();
         this.colorTimeline = gsap.timeline({ paused: true })
         this.polution = 10;
+        this.surface = this.wave.DOM.getBoundingClientRect().top;
     }
 
     setup() {
@@ -44,11 +69,13 @@ class Water {
             waterRipple.animate(idx)
         }
 
-        this.colorTimeline.to(waterBox.querySelector('rect'), {
+        this.wave.animate();
+
+        this.colorTimeline.to(document.body, {
+            backgroundColor: "#f0f8ff",
             duration: 10,
             ease: 'none',
-            fill: '#1464AE'
-        }, 0);
+        }, 0)
     }
 
     heal() {
@@ -57,6 +84,11 @@ class Water {
         this.colorTimeline.tweenTo(10 - this.polution);
     }
 
+    contaminate() {
+        this.polution += 0.1;
+        if (this.polution > 10) this.polution = 10;
+        this.colorTimeline.tweenTo(10 - this.polution);
+    }
 }
 
 const water = new Water(6);

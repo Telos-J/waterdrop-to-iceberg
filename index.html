@@ -4,48 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>SVG Morphing</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                width: 100vw;
-                height: 100vh;
-                overflow: hidden;
-            }
-
-            .waterRipple {
-                display: none;
-                position: absolute;
-                top: 50vh;
-            }
-
-            .pipette, .waterdrop {
-                position: absolute;
-                width: 10vw;
-                height: 15vw;
-            }
-
-            .pipette {
-                transform: translate(-80%, -10%);
-            }
-
-            .waterdrop {
-                transform: translate(-87%, 3%);
-            }
-            
-            .waterdrop {
-                opacity: 0;
-            }
-
-            .water-box {
-                position: absolute;
-                top: 50vh;
-            }
-        </style>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="shortcut icon" href="assets/img/dropper.png" type="image/x-icon">
     </head>
     <body>
         <svg class="waterRipple" viewBox="591.82 0 2935.93 2418">
@@ -72,15 +32,16 @@
         <path d="M389.5 1101C389.5 1163.13 330.5 1162.5 302 1169.5C271 1162.5 217 1163.13 217 1101C217 1038.87 273 1080.5 302 980C331 1078.5 389.5 1038.87 389.5 1101Z" fill="#ADD1E4"/>
         </svg>
 
-        <svg class="water-box"viewBox= "591.82 0 2935.93 2418">
-        <rect y="373" width="4120" height="2045" fill="#0A4E57" fill-opacity="0.8"/>
+        <svg class="wave" viewBox="0 0 4120 2054" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="wave-fill" d="M1030 176.623C515 176.623 515 0 0 0V2054H6180V0C5665 0 5665 176.623 5150 176.623C4635 176.623 4635 0 4120 0C3605 0 3605 176.623 3090 176.623C2575 176.623 2575 0 2060 0C1545 0 1545 176.623 1030 176.623Z" fill="#0A4E57" fill-opacity="0.8"/>
+        <path id="wave-outline" d="M0 10C515 10 515 186.623 1030 186.623C1545 186.623 1545 10 2060 10C2575 10 2575 186.623 3090 186.623C3605 186.623 3605 10 4120 10C4635 10 4635 186.623 5150 186.623C5665 186.623 5665 10 6180 10" stroke="white" stroke-width="20"/>
         </svg>
 
-        <script src="gsap.min.js"></script>
-        <script src="MorphSVGPlugin.min.js"></script>
-        <script src="waterDrop.js"></script>
-        <script src="waterRipple.js"></script>
-        <script src="pipette.js"></script>
-        <script src="control.js"></script>
+        <script src="assets/js/gsap.min.js"></script>
+        <script src="assets/js/MorphSVGPlugin.min.js"></script>
+        <script src="assets/js/waterDrop.js"></script>
+        <script src="assets/js/waterRipple.js"></script>
+        <script src="assets/js/pipette.js"></script>
+        <script src="assets/js/control.js"></script>
     </body>
 </html>

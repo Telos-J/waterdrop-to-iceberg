@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #FCEFD6;
+}
+
+.waterRipple {
+    display: none;
+    position: absolute;
+    top: 50vh;
+}
+
+.pipette, .waterdrop {
+    position: absolute;
+    width: 10vw;
+    height: 15vw;
+}
+
+.pipette {
+    transform: translate(-80%, -10%);
+}
+
+.waterdrop {
+    transform: translate(-87%, 3%);
+}
+
+.waterdrop {
+    opacity: 0;
+}
+
+.wave {
+    position: absolute;
+    top: 70vh;
+    width: 100vw;
+}

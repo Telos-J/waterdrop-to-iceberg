@@ -24,3 +24,9 @@ window.addEventListener('keydown', (e) => {
 window.setInterval(() => {
     console.log("Polution: ", (1 - water.colorTimeline.progress()) * 100)
 }, 100)
+
+window.setInterval(() => {
+    water.contaminate()
+}, 200)
+
+window.addEventListener('resize', () => location.reload())
